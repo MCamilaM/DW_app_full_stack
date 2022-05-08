@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useReducer, useEffect, useState, useRef } from 'react';
 
-import './App.css' 
+import './App.css'
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 const HOST_API = "http://localhost:8080/api"
 
@@ -25,26 +25,27 @@ const Form = () => {
 
   const onAdd = (event) => {
     //event.preventDefault();
+    if (state.name) {
+      const request = {
+        name: state.name,
+        id: null,
+        isCompleted: false
+      };
 
-    const request = {
-      name: state.name,
-      id: null,
-      isCompleted: false
-    };
-
-    fetch(HOST_API + "/todo", {
-      method: "POST",
-      body: JSON.stringify(request),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(response => response.json())
-      .then((todo) => {
-        dispatch({ type: "add-item", item: todo });
-        setState({ name: "" });
-        formRef.current.reset();
-      });
+      fetch(HOST_API + "/todo", {
+        method: "POST",
+        body: JSON.stringify(request),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+        .then(response => response.json())
+        .then((todo) => {
+          dispatch({ type: "add-item", item: todo });
+          setState({ name: "" });
+          formRef.current.reset();
+        });
+    }
   }
 
   const onEdit = (event) => {
@@ -76,8 +77,9 @@ const Form = () => {
       setState({ ...state, name: event.target.value })
     }}></input>
 
-    
+
     {item.id && <button class="btnActualizar btnNuevo" onClick={onEdit} ></button>}
+
     {!item.id && <button class="btnAgregar btnNuevo" onClick={onAdd}></button>}
 
   </form>
@@ -118,7 +120,7 @@ const List = () => {
           <td>¿Esta completado?</td>
           <td>Editar</td>
           <td>Eliminar</td>
-          
+
         </tr>
       </thead>
       <tbody>
@@ -129,7 +131,7 @@ const List = () => {
             <td>{todo.isCompleted === true ? "SI" : "NO"}</td>
             <td><button class="btnEditar btnNuevo" onClick={() => onEdit(todo)}></button></td>
             <td><button class="btnEliminar btnNuevo" onClick={() => onDelete(todo.id)}></button></td>
-            
+
           </tr>
         })}
       </tbody>
@@ -137,7 +139,6 @@ const List = () => {
   </div>
 }
 
-//
 function reducer(state, action) {
   switch (action.type) {
     case 'update-item':
