@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useReducer, useEffect, useState, useRef } from 'react';
 
-
-
+import './App.css' 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 const HOST_API = "http://localhost:8080/api"
 
 const initialState = {
@@ -76,8 +76,9 @@ const Form = () => {
       setState({ ...state, name: event.target.value })
     }}></input>
 
-    {item.id && <button onClick={onEdit}>Actualizar</button>}
-    {!item.id && <button onClick={onAdd}>Agregar</button>}
+    
+    {item.id && <button class="btnActualizar btnNuevo" onClick={onEdit} ></button>}
+    {!item.id && <button class="btnAgregar btnNuevo" onClick={onAdd}></button>}
 
   </form>
 }
@@ -109,12 +110,15 @@ const List = () => {
   };
 
   return <div>
-    <table>
+    <table class="table">
       <thead>
         <tr>
           <td>ID</td>
           <td>Nombre</td>
           <td>¿Esta completado?</td>
+          <td>Editar</td>
+          <td>Eliminar</td>
+          
         </tr>
       </thead>
       <tbody>
@@ -123,8 +127,9 @@ const List = () => {
             <td>{todo.id}</td>
             <td>{todo.name}</td>
             <td>{todo.isCompleted === true ? "SI" : "NO"}</td>
-            <td><button onClick={() => onDelete(todo.id)}>Eliminar</button></td>
-            <td><button onClick={() => onEdit(todo)}>Editar</button></td>
+            <td><button class="btnEditar btnNuevo" onClick={() => onEdit(todo)}></button></td>
+            <td><button class="btnEliminar btnNuevo" onClick={() => onDelete(todo.id)}></button></td>
+            
           </tr>
         })}
       </tbody>
